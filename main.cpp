@@ -16,8 +16,7 @@ int main(int argc, const char * argv[])
 {
     char text[] = "123jiabcdefefege";
     char dest[] = "adf";
-    findSubString(text, dest);
-    //int a = test();
-    //cout<< a<< "\n";
+    //findSubString(text, dest);
+    test();
 }
 

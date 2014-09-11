@@ -8,7 +8,56 @@
 
 #include "questions.h"
 #include <iostream>
+#include <string>
 using namespace std;
+
+typedef struct linkedlist
+{
+    int data;
+    linkedlist *next;
+}node;
+
+void print_ll(node *head)
+{
+    node *p = head;
+    while(p)
+    {
+        cout<< p->data << "->";
+        p = p->next;
+    }
+}
+
+node *create_ll()
+{
+    node *head = (node *)malloc(sizeof(linkedlist));
+    node *p1 = (node *)malloc(sizeof(linkedlist));
+    p1->data = 21;
+    node *p2 = (node *)malloc(sizeof(linkedlist));
+    p2->data = 2;
+    head->next = p1;
+    p1->next = p2;
+    p2->next = NULL;
+    return head;
+}
+
+
+
+node *reverse_LL(node *head)
+{
+    node *p = head, *p1 = p->next, *p2;
+    if(head == NULL || head->next == NULL)
+        return head;
+    while(p1)
+    {
+        p2 = p1->next;
+        p1->next = p;
+        p = p1;
+        p1 = p2;
+    }
+    head->next = NULL;
+    head = p;
+    return head;
+}
 
 bool AllOccurred(bool occur[], int n)
 {
@@ -33,6 +82,8 @@ bool NoneOccurred(bool occur[], int n)
 void findSubString(char text[], char dest[])
 {
     char *t = text, *start = text, *d = dest, *temp = dest;
+    if(t == NULL || d == NULL)
+        return;
     int count = 0, length = 0;
     while(*temp)
     {
@@ -79,9 +130,51 @@ void findSubString(char text[], char dest[])
     cout<< "cannot find \n";
 }
 
-
-
-int test()
+void reverse_word(char word[])
 {
-    return 777;
+    char *last = word, *first = word;
+    if(first == NULL)
+        return;
+    int count = 0;
+    while(*last)
+    {
+        last++;
+        
+    }
+    last--;
+    char c;
+    while(*first != *last)
+    {
+        c = *first;
+        *first = *last;
+        *last = c;
+        first++;
+        last--;
+    }
+    first = word;
+    while(*first)
+    {
+        cout<< *first;
+        first++;
+    }
+    cout<< "\n";
 }
+
+char *space(char *c)
+{
+    c = (char *)malloc(100);
+    return c;
+}
+
+void test()
+{
+    char word[] = "abcde";
+    char *p = word;
+    //reverse_word(word);
+    char *s = NULL;
+    s = space(s);
+    strcpy(s, "hello");
+    printf("%s", s);
+}
+
+
