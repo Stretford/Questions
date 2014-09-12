@@ -11,6 +11,8 @@
 #include <string>
 using namespace std;
 
+#define MAX(a, b) (a > b ? a : b)
+#define MIN(a, b) (a < b ? a : b)
 typedef struct linkedlist
 {
     int data;
@@ -130,11 +132,20 @@ void findSubString(char text[], char dest[])
     cout<< "cannot find \n";
 }
 
-void reverse_word(char word[])
+void print_str(char *p)
+{
+    while(*p)
+    {
+        cout<< *p;
+        p++;
+    }
+}
+
+char* reverse_word(char *word)
 {
     char *last = word, *first = word;
     if(first == NULL)
-        return;
+        return word;
     int count = 0;
     while(*last)
     {
@@ -152,29 +163,75 @@ void reverse_word(char word[])
         last--;
     }
     first = word;
-    while(*first)
-    {
-        cout<< *first;
-        first++;
-    }
+    print_str(first);
     cout<< "\n";
+    return word;
 }
 
-char *space(char *c)
+void loopMove(char *str, int step)
 {
-    c = (char *)malloc(100);
-    return c;
+    if(str == NULL)
+        return;
+    int n = strlen(str) - step;
+    char temp[strlen(str)];
+    memcpy(temp, str + n, step);
+    memcpy(temp + step, str, n);
+    print_str(temp);
+}
+
+int LCS(char *s1, char *s2)     //Longest Common Substring, time:O(m*n) storage:O(min(m,n))
+{
+    if(s1 == NULL || s2 == NULL)
+        return 0;
+    char *p1 = s1, *p2 = s2;
+    int len1 = strlen(s1), len2 = strlen(s2), result = 0;
+    int m1[len1];
+    for(int i = 0;i < len1;i++)
+        m1[i] = 0;
+    
+    for(int i = 0;i < len2;i++)
+    {
+        for(int j = len1 - 1;j >= 0;j--)
+        {
+            if(i == 0 || j == 0)
+            {
+                if(*(p1 + j) == *(p2 + i))
+                    m1[j] = 1;
+                else
+                    m1[j] = 0;
+            }
+            else
+            {
+                if(*(p1 + j) == *(p2 + i))
+                {
+                    m1[j] = m1[j - 1] + 1;
+                    if(m1[j] > result)
+                        result = m1[j];
+                }
+                else
+                    m1[j] = 0;
+            }
+        }
+    }
+    return result;
+}
+
+int LRS(char *s)        //Longest Recursive Substring
+{
+    char reverse[strlen(s)];
+    char *r = reverse;
+    strcpy(r, s);
+    r = reverse_word(r);
+    print_str(r); cout<<"\n";
+    return LCS(s, r);
 }
 
 void test()
 {
     char word[] = "abcde";
     char *p = word;
-    //reverse_word(word);
-    char *s = NULL;
-    s = space(s);
-    strcpy(s, "hello");
-    printf("%s", s);
+    char s1[] = "1abbba2";
+    cout<<"LRS:" <<LRS(s1) <<"\n";
 }
 
 
